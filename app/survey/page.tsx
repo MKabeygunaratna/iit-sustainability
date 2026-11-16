@@ -12,7 +12,7 @@ export default function SurveyPage() {
   const [answers, setAnswers] = useState<Answers>({});
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [done, setDone] = useState(false);
+  const [closed, setClosed] = useState(false);
   const [acknowledgedIp, setAcknowledgedIp] = useState(false);
   const section = sections[step];
   function update(id: string, value: string | string[]) { setAnswers(a => ({ ...a, [id]: value })); setError(""); }
@@ -38,14 +38,17 @@ export default function SurveyPage() {
     setBusy(true);
     try {
       const res = await fetch("/api/submit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ answers, website: "", acknowledgedIp }) });
-      const result = await res.json() as {error?:string};
+      const result = await res.json() as {error?:string; code?:string};
+      if (result.code === "SURVEY_CLOSED") {
+        setClosed(true); window.scrollTo({ top: 0, behavior: "smooth" }); return;
+      }
       if (!res.ok) throw new Error(result.error || "Submission failed.");
-      setDone(true); window.scrollTo({ top: 0, behavior: "smooth" });
+      setError("This survey is no longer accepting responses. Your response has not been saved.");
     } catch (err) { setError(err instanceof Error ? err.message : "Please try again."); }
     finally { setBusy(false); }
   }
   return <><SiteHeader active="survey"/><main className="r-wrap r-narrow r-survey">
-    {done ? <div className="r-thanks"><span className="r-kicker r-kicker-green">Response received</span><h1>Thank you for <em className="r-em">sharing your voice.</em></h1><p>Your response has been saved with its encrypted IP address for possible repeat review. Your perspective helps build a clearer picture of sustainability at IIT.</p><Link href="/" className="r-btn r-btn-green">Back to homepage <ArrowRight size={17}/></Link></div> : <>
+    {closed ? <div className="r-thanks" role="status"><span className="r-kicker r-kicker-green">Survey closed</span><h1>Response collection <em className="r-em">has ended.</em></h1><p>This survey is no longer accepting responses. Your response has not been saved. Thank you for your interest in sustainability at IIT.</p><Link href="/" className="r-btn r-btn-green">Back to homepage <ArrowRight size={17}/></Link></div> : <>
       <div className="r-topline"><Link href="/" className="r-back"><ArrowLeft size={15}/> Back to home</Link><span><LockKeyhole size={14}/> Answers & IP encrypted</span></div>
       <h1 className="r-title">Your perspective <em className="r-em">makes a difference.</em></h1>
       <p className="r-lead">There are no right or wrong answers. Please respond based on your own experience at IIT.</p>
