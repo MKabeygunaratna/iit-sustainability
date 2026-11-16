@@ -1,34 +1,41 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, BarChart3, Check, ChevronDown, Globe2, Leaf, LockKeyhole, Recycle, ShieldCheck, Sparkles, Sprout, Zap } from "lucide-react";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import SiteHeader from "./components/SiteHeader";
+import SiteFooter from "./components/SiteFooter";
 import { initializeDemo } from "../lib/demo";
 
 export const dynamic = "force-dynamic";
 export default async function Home() {
   await initializeDemo();
   return <><SiteHeader/><main>
-    <section className="hero"><div className="container hero-content">
-      <div className="hero-copy"><div className="eyebrow"><span className="live-dot"/> AN ACADEMIC RESEARCH SURVEY <span className="eyebrow-divider"/> IIT COMMUNITY</div>
-        <h1>A greener campus<br/>starts with <em>your voice.</em></h1>
-        <p className="hero-sub">What is working? What could be better? Share your perspective on sustainability at IIT and help identify the ideas that matter most.</p>
-        <div className="hero-actions"><Link href="/survey" className="btn btn-primary">Take the survey <ArrowUpRight size={19}/></Link><span className="time-note"><span className="time-icon">◷</span> About 5–7 minutes · 20 questions</span></div>
-        <div className="hero-trust"><span><ShieldCheck size={17}/> No name or email requested</span><i/><span><LockKeyhole size={16}/> Encrypted answers & IP</span><i/><span><Check size={17}/> Academic use only</span></div>
+    <section className="r-wrap r-hero">
+      <div className="r-kicker"><span className="r-dot"/> An academic research survey · IIT community</div>
+      <h1>A greener campus starts with <em className="r-em">your voice.</em></h1>
+      <p className="r-hero-sub">What is working? What could be better? Share your perspective on sustainability at IIT and help identify the ideas that matter most.</p>
+      <div className="r-hero-actions"><Link href="/survey" className="r-btn r-btn-green">Take the survey <ArrowRight size={17}/></Link><span className="r-time">About 5–7 minutes · 20 questions</span></div>
+      <ul className="r-trust"><li>No name or email requested</li><li>Encrypted answers &amp; IP</li><li>Academic use only</li></ul>
+    </section>
+    <section className="r-band" id="why"><div className="r-wrap r-section">
+      <div className="r-split r-split-end"><div><span className="r-kicker">The big picture</span><h2 className="r-h2">Small actions. Meaningful change.</h2></div><p className="r-lead">This is a space to share honest views about sustainability on campus. Your answers can help highlight where attention is needed.</p></div>
+      <div className="r-features">
+        <article className="r-feature"><span>01 / UNDERSTAND</span><h3>Where we stand</h3><p>Tell us how you see IIT’s current environmental efforts, from waste disposal to energy and water use.</p></article>
+        <article className="r-feature"><span>02 / IMPROVE</span><h3>What matters most</h3><p>Point to the barriers you notice and choose the changes you think IIT should prioritise next.</p></article>
+        <article className="r-feature"><span>03 / IMAGINE</span><h3>What comes next</h3><p>Share how digital tools and new ideas could make sustainable choices easier for everyone.</p></article>
       </div>
-      <div className="hero-art" aria-hidden="true"><div className="art-glow"/><div className="art-orbit orbit-one"/><div className="art-orbit orbit-two"/><div className="planet"><div className="planet-inner"><Leaf size={93} strokeWidth={1.25}/></div></div><div className="float-card float-one"><span className="float-icon"><Recycle size={21}/></span><div><strong>Better choices</strong><small>Every response counts</small></div></div><div className="float-card float-two"><span className="float-icon mint"><Zap size={20}/></span><div><strong>Fresh ideas</strong><small>For a future-ready IIT</small></div></div><span className="orbit-spark spark-one">✳</span><span className="orbit-spark spark-two">✦</span></div>
-    </div><a className="scroll-cue" href="#why">EXPLORE <ChevronDown size={15}/></a></section>
-    <section className="why-section" id="why"><div className="container"><div className="section-head"><div><span className="section-kicker">THE BIG PICTURE</span><h2>Small actions. <span>Meaningful change.</span></h2></div><p>This is a space to share honest views about sustainability on campus. Your answers can help highlight where attention is needed.</p></div>
-      <div className="feature-grid"><article className="feature-card"><div className="feature-icon peach"><Globe2 size={27}/></div><span className="feature-index">01 / UNDERSTAND</span><h3>Where we stand</h3><p>Tell us how you see IIT’s current environmental efforts, from waste disposal to energy and water use.</p><span className="card-arrow"><ArrowUpRight size={19}/></span></article><article className="feature-card"><div className="feature-icon lilac"><Sprout size={27}/></div><span className="feature-index">02 / IMPROVE</span><h3>What matters most</h3><p>Point to the barriers you notice and choose the changes you think IIT should prioritise next.</p><span className="card-arrow"><ArrowUpRight size={19}/></span></article><article className="feature-card"><div className="feature-icon lime"><Sparkles size={27}/></div><span className="feature-index">03 / IMAGINE</span><h3>What comes next</h3><p>Share how digital tools and new ideas could make sustainable choices easier for everyone.</p><span className="card-arrow"><ArrowUpRight size={19}/></span></article></div>
     </div></section>
-    <section className="sdg-section" aria-labelledby="sdg-heading"><div className="container sdg-inner">
-      <div className="sdg-copy"><span className="section-kicker">LOCAL VOICES. GLOBAL GOALS.</span><h2 id="sdg-heading">A better campus.<br/><em>A bigger purpose.</em></h2><p>From the water we use to the waste we create, everyday campus choices connect to the Sustainable Development Goals. Your perspective can help identify where IIT could take its next step.</p>
-        <div className="sdg-goals"><span className="sdg-goal water"><b>06</b> Clean water</span><span className="sdg-goal energy"><b>07</b> Clean energy</span><span className="sdg-goal consumption"><b>12</b> Responsible consumption</span><span className="sdg-goal climate"><b>13</b> Climate action</span></div>
-        <Link href="/survey" className="text-link">Bring your ideas to the survey <ArrowRight size={18}/></Link>
+    <section className="r-wrap r-section r-split r-split-center" aria-labelledby="sdg-heading">
+      <div><span className="r-kicker">Local voices. Global goals.</span><h2 className="r-h2" id="sdg-heading">A better campus. <em className="r-em">A bigger purpose.</em></h2><p className="r-lead" style={{ marginTop: 20 }}>From the water we use to the waste we create, everyday campus choices connect to the Sustainable Development Goals. Your perspective can help identify where IIT could take its next step.</p>
+        <div className="r-goals"><span className="r-goal"><b>06</b> Clean water</span><span className="r-goal"><b>07</b> Clean energy</span><span className="r-goal"><b>12</b> Responsible consumption</span><span className="r-goal"><b>13</b> Climate action</span></div>
+        <Link href="/survey" className="r-link">Bring your ideas to the survey <ArrowRight size={16}/></Link>
       </div>
-      <figure className="sdg-figure"><Image src="/sdg.png" width={659} height={465} sizes="(max-width: 720px) 90vw, (max-width: 960px) 85vw, 600px" alt="The 17 Sustainable Development Goals, covering people, the planet, and shared prosperity"/><figcaption>A global framework. A place to start on campus.</figcaption></figure>
+      <figure className="r-figure"><Image src="/sdg.png" width={659} height={465} sizes="(max-width: 760px) 90vw, 520px" alt="The 17 Sustainable Development Goals, covering people, the planet, and shared prosperity"/><figcaption>A global framework. A place to start on campus.</figcaption></figure>
+    </section>
+    <section className="r-band"><div className="r-wrap r-section r-split r-split-center">
+      <div><span className="r-kicker">How it works</span><h2 className="r-h2">Five short sections. <em className="r-em">One useful perspective.</em></h2><p className="r-lead" style={{ margin: "20px 0 28px" }}>Choose the answers that reflect your experience. The last section gives you room to share your own ideas in your own words.</p><Link href="/survey" className="r-link">Start answering <ArrowRight size={16}/></Link></div>
+      <ol className="r-steps">{["About you", "Awareness", "Current situation", "Problems & priorities", "Digital future"].map((item,i)=><li key={item}><span>0{i+1}</span><strong>{item}</strong></li>)}</ol>
     </div></section>
-    <section className="how-section"><div className="container how-inner"><div className="how-left"><span className="section-kicker">HOW IT WORKS</span><h2>Five short sections.<br/><em>One useful perspective.</em></h2><p>Choose the answers that reflect your experience. The last section gives you room to share your own ideas in your own words.</p><Link href="/survey" className="text-link">Start answering <ArrowRight size={18}/></Link></div><div className="steps-panel">{["About you", "Awareness", "Current situation", "Problems & priorities", "Digital future"].map((item,i)=><div className="step-row" key={item}><span className="step-number">0{i+1}</span><strong>{item}</strong><span className="step-line"/><Check size={16}/></div>)}</div></div></section>
-    <section className="privacy-section"><div className="container privacy-inner"><div className="privacy-badge"><ShieldCheck size={29}/></div><div><span className="section-kicker">YOUR PRIVACY MATTERS</span><h2>Your data, handled carefully.</h2><p>We do not ask for your name, email, or student ID. We do collect your IP address to flag possible repeat responses. Your IP and answers are encrypted before storage and sent over HTTPS. Only the passcode holder can review them for this academic project. Please avoid identifying details in written answers.</p></div><Link className="privacy-link" href="/survey">Share your view <ArrowUpRight size={18}/></Link></div></section>
-    <section className="final-cta"><div className="container final-inner"><div><span className="section-kicker">READY WHEN YOU ARE</span><h2>Help shape a more<br/><em>sustainable IIT.</em></h2></div><Link className="btn btn-light" href="/survey">Take the survey <ArrowUpRight size={19}/></Link></div></section>
-  </main><footer className="footer"><div className="container footer-inner"><div className="footer-brand"><Image className="footer-logo" src="/logo.png" width={44} height={44} alt="IIT crest"/><strong>IIT.</strong><span>Sustainability Survey</span></div><p>Academic coursework project · Independent survey about IIT sustainability</p><Link href="/insights"><BarChart3 size={15}/> Protected results</Link></div><div className="container footer-note">IIT is used to identify the subject of this student survey. This site is not presented as an official IIT publication.</div></footer></>;
+    <section className="r-wrap r-section"><div className="r-privacy"><span className="r-kicker">Your privacy matters</span><h2>Your data, handled carefully.</h2><p className="r-lead">We do not ask for your name, email, or student ID. We do collect your IP address to flag possible repeat responses. Your IP and answers are encrypted before storage and sent over HTTPS. Only the passcode holder can review them for this academic project. Please avoid identifying details in written answers.</p></div></section>
+    <section className="r-cta"><div className="r-wrap r-cta-inner"><div><span className="r-kicker">Ready when you are</span><h2>Help shape a more <em className="r-em">sustainable IIT.</em></h2></div><Link className="r-btn r-btn-light" href="/survey">Take the survey <ArrowUpRight size={17}/></Link></div></section>
+  </main><SiteFooter/></>;
 }

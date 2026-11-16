@@ -5,21 +5,14 @@ import {
   ArrowDownToLine,
   ArrowLeft,
   ArrowRight,
-  BarChart3,
-  CheckCircle2,
   ChevronDown,
+  Check,
   ChevronUp,
-  Eye,
-  Leaf,
-  LockKeyhole,
   LogOut,
-  RotateCcw,
-  Search,
-  ShieldCheck,
-  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import SiteHeader from "../components/SiteHeader";
+import SiteFooter from "../components/SiteFooter";
 import { questions, type Answers, type Question } from "../../lib/questions";
 
 type RecordItem = {
@@ -109,21 +102,21 @@ function Bars({
   limit?: number;
 }) {
   return (
-    <div className="bar-list">
+    <div className="r-bars">
       {data.slice(0, limit).map((item) => (
-        <div className="bar-row" key={item.label}>
-          <div className="bar-copy">
+        <div key={item.label}>
+          <div className="r-bar-copy">
             <span>{item.label}</span>
             <strong>
               {pct(item.count, total)}% <small>({item.count})</small>
             </strong>
           </div>
-          <div className="bar-track">
+          <div className="r-bar-track">
             <div style={{ width: `${pct(item.count, total)}%` }} />
           </div>
         </div>
       ))}
-      {!total && <p className="empty-small">No responses to display yet.</p>}
+      {!total && <p className="r-empty">No responses to display yet.</p>}
     </div>
   );
 }
@@ -266,30 +259,22 @@ export default function InsightsPage() {
   return (
     <>
       <SiteHeader active="insights" />
-      <main className="insights-shell">
-        <div className="container">
+      <main>
           {authenticated === null ? (
-            <div className="loading-view">Loading results…</div>
+            <div className="r-loading">Loading results…</div>
           ) : !authenticated ? (
-            <div className="gate-wrap">
-              <div className="gate-orb">
-                <LockKeyhole size={38} />
-              </div>
-              <div className="eyebrow">
-                <span className="live-dot" /> RESTRICTED ACCESS
-              </div>
+            <div className="r-gate">
+              <div className="r-kicker r-kicker-green">Restricted access</div>
               <h1>
-                Insights are for
-                <br />
-                <em>your eyes only.</em>
+                Insights are for <em className="r-em">your eyes only.</em>
               </h1>
-              <p>
+              <p className="r-lead">
                 Enter the passcode to view charts, written responses, and the
                 complete CSV export. Survey participants cannot see this area.
               </p>
-              <form className="gate-form" onSubmit={login}>
+              <form className="r-gate-form" onSubmit={login}>
                 <label htmlFor="passcode">Results passcode</label>
-                <div className="password-row">
+                <div className="r-gate-row">
                   <input
                     id="passcode"
                     type="password"
@@ -299,99 +284,91 @@ export default function InsightsPage() {
                     placeholder="Enter passcode"
                     required
                   />
-                  <button type="submit" disabled={busy}>
+                  <button type="submit" className="r-btn r-btn-dark" disabled={busy}>
                     {busy ? "Checking..." : "Unlock results"}{" "}
-                    <ArrowRight size={17} />
+                    <ArrowRight size={16} />
                   </button>
                 </div>
                 {error && (
-                  <span role="alert" className="form-error">
+                  <p role="alert" className="r-error">
                     {error}
-                  </span>
+                  </p>
                 )}
               </form>
-              <div className="gate-note">
-                <ShieldCheck size={17} /> Only someone with the passcode can
-                access these results.
-              </div>
-              <Link href="/" className="back-link">
-                <ArrowLeft size={16} /> Back to home
+              <p className="r-gate-note">
+                Only someone with the passcode can access these results.
+              </p>
+              <Link href="/" className="r-back">
+                <ArrowLeft size={15} /> Back to home
               </Link>
             </div>
           ) : (
-            <>
-              <div className="dashboard-hero">
+            <div className="r-wrap r-dash">
+              <div className="r-dash-head">
                 <div>
-                  <div className="eyebrow">
-                    <span className="live-dot" /> PRIVATE RESEARCH DASHBOARD
+                  <div className="r-kicker r-kicker-green">
+                    Private research dashboard
                   </div>
                   <h1>
-                    Survey <em>insights.</em>
+                    Survey <em className="r-em">insights.</em>
                   </h1>
-                  <p>
+                  <p className="r-lead">
                     A clear view of what the IIT community thinks. Sample
                     responses are labelled throughout.
                   </p>
                 </div>
-                <div className="dashboard-actions">
-                  <a href="/api/admin/csv" className="btn btn-primary">
-                    <ArrowDownToLine size={17} /> Export CSV
+                <div className="r-dash-actions">
+                  <a href="/api/admin/csv" className="r-btn r-btn-dark r-btn-sm">
+                    Export CSV <ArrowDownToLine size={15} />
                   </a>
                   <button
-                    className="icon-button"
+                    className="r-btn r-btn-ghost r-btn-sm"
                     title="Lock results"
+                    aria-label="Lock results"
                     onClick={() => action("logout")}
                   >
-                    <LogOut size={19} />
+                    <LogOut size={15} />
                   </button>
                 </div>
               </div>
               {demoCount === 0 && (
-                <div className="data-toolbar">
-                  <span>
-                    <CheckCircle2 size={17} /> No sample records in the
-                    database.
-                  </span>
-                  <button onClick={() => action("seed")} disabled={busy}>
-                    <RotateCcw size={15} /> Add 24 sample responses
+                <div className="r-note-row">
+                  <span>No sample records in the database.</span>
+                  <button
+                    className="r-btn r-btn-ghost r-btn-sm"
+                    onClick={() => action("seed")}
+                    disabled={busy}
+                  >
+                    Add 24 sample responses
                   </button>
                 </div>
               )}
-              <div className="dashboard-tabs">
-                <div>
-                  {(["overview", "questions", "responses"] as Tab[]).map(
-                    (t, i) => (
-                      <button
-                        key={t}
-                        className={tab === t ? "selected" : ""}
-                        onClick={() => setTab(t)}
-                      >
-                        {
-                          [
-                            <BarChart3 size={16} key="a" />,
-                            <Eye size={16} key="b" />,
-                            <Leaf size={16} key="c" />,
-                          ][i]
-                        }
-                        {t === "overview"
-                          ? "Overview"
-                          : t === "questions"
-                            ? "All questions"
-                            : "Responses"}
-                      </button>
-                    ),
-                  )}
-                </div>
+              <div className="r-tabs" role="tablist">
+                {(["overview", "questions", "responses"] as Tab[]).map((t) => (
+                  <button
+                    key={t}
+                    role="tab"
+                    aria-selected={tab === t}
+                    className={tab === t ? "is-active" : ""}
+                    onClick={() => setTab(t)}
+                  >
+                    {t === "overview"
+                      ? "Overview"
+                      : t === "questions"
+                        ? "All questions"
+                        : "Responses"}
+                  </button>
+                ))}
               </div>
               {error && (
-                <p className="form-error dashboard-error" role="alert">
+                <p className="r-error" role="alert">
                   {error}
                 </p>
               )}
               {tab === "overview" && (
-                <div className="dashboard-content">
-                  <div className="stat-grid">
-                    <div className="stat-card">
+                <div>
+                  <div className="r-stats">
+                    <div className="r-stat">
                       <span>TOTAL RESPONSES</span>
                       <strong>{shown.length}</strong>
                       <small>
@@ -400,7 +377,7 @@ export default function InsightsPage() {
                           : "Real responses only"}
                       </small>
                     </div>
-                    <div className="stat-card">
+                    <div className="r-stat">
                       <span>SUSTAINABILITY MATTERS</span>
                       <strong>
                         {pct(veryImportant, shown.length)}
@@ -408,7 +385,7 @@ export default function InsightsPage() {
                       </strong>
                       <small>Very or extremely important</small>
                     </div>
-                    <div className="stat-card">
+                    <div className="r-stat">
                       <span>DIGITAL TOOL INTEREST</span>
                       <strong>
                         {pct(useful, shown.length)}
@@ -416,7 +393,7 @@ export default function InsightsPage() {
                       </strong>
                       <small>Probably or definitely useful</small>
                     </div>
-                    <div className="stat-card accent">
+                    <div className="r-stat">
                       <span>SHARED IP RESPONSES</span>
                       <strong>{repeatRows}</strong>
                       <small>
@@ -426,36 +403,36 @@ export default function InsightsPage() {
                       </small>
                     </div>
                   </div>
-                  <div className="chart-grid">
-                    <article className="chart-card">
-                      <div className="chart-heading">
+                  <div className="r-charts">
+                    <article className="r-chart">
+                      <div className="r-chart-head">
                         <div>
-                          <span className="section-kicker">QUESTION 14</span>
+                          <span className="r-kicker">QUESTION 14</span>
                           <h2>First priority for IIT</h2>
                         </div>
-                        <span className="chart-chip">Single choice</span>
+                        <span className="r-chip">Single choice</span>
                       </div>
                       <Bars data={priority} total={shown.length} limit={7} />
                     </article>
-                    <article className="chart-card">
-                      <div className="chart-heading">
+                    <article className="r-chart">
+                      <div className="r-chart-head">
                         <div>
-                          <span className="section-kicker">QUESTION 11</span>
+                          <span className="r-kicker">QUESTION 11</span>
                           <h2>Barriers to sustainable action</h2>
                         </div>
-                        <span className="chart-chip">Multiple choice</span>
+                        <span className="r-chip">Multiple choice</span>
                       </div>
                       <Bars data={barriers} total={shown.length} limit={7} />
-                      <p className="chart-footnote">
+                      <p className="r-footnote-sm">
                         Each percentage is the share of respondents who selected
                         that option.
                       </p>
                     </article>
                   </div>
-                  <div className="themes-card">
-                    <div className="chart-heading">
+                  <article className="r-chart r-themes">
+                    <div className="r-chart-head">
                       <div>
-                        <span className="section-kicker">
+                        <span className="r-kicker">
                           WRITTEN ANSWERS · QUESTIONS 19 & 20
                         </span>
                         <h2>Ideas, grouped by theme</h2>
@@ -464,15 +441,11 @@ export default function InsightsPage() {
                           than one theme; review the full text for context.
                         </p>
                       </div>
-                      <span className="chart-chip">Rule-based</span>
+                      <span className="r-chip">Rule-based</span>
                     </div>
-                    <div className="theme-grid">
+                    <div className="r-theme-grid">
                       {themeCounts.map((t) => (
-                        <div className="theme-item" key={t.name}>
-                          <span
-                            className="theme-dot"
-                            style={{ background: t.color }}
-                          />
+                        <div className="r-theme" key={t.name}>
                           <strong>{t.name}</strong>
                           <span>
                             {t.count} <small>mentions</small>
@@ -480,18 +453,18 @@ export default function InsightsPage() {
                         </div>
                       ))}
                     </div>
-                    <p className="chart-footnote">
+                    <p className="r-footnote-sm">
                       {unclassified} response{unclassified === 1 ? "" : "s"} did
                       not match these themes. This is an exploratory summary,
                       not an AI judgment.
                     </p>
-                  </div>
+                  </article>
                 </div>
               )}
               {tab === "questions" && (
-                <div className="all-questions">
-                  <div className="tab-intro">
-                    <span className="section-kicker">
+                <div>
+                  <div className="r-intro">
+                    <span className="r-kicker r-kicker-green">
                       THE COMPLETE BREAKDOWN
                     </span>
                     <h2>Every question, at a glance.</h2>
@@ -501,19 +474,19 @@ export default function InsightsPage() {
                       Multiple-choice totals can exceed 100%.
                     </p>
                   </div>
-                  <div className="question-chart-grid">
+                  <div className="r-charts">
                     {questions
                       .filter((q) => q.options)
                       .map((q) => (
-                        <article className="chart-card" key={q.id}>
-                          <div className="chart-heading">
+                        <article className="r-chart" key={q.id}>
+                          <div className="r-chart-head">
                             <div>
-                              <span className="section-kicker">
+                              <span className="r-kicker">
                                 QUESTION {q.id.slice(1)}
                               </span>
                               <h3>{q.text}</h3>
                             </div>
-                            <span className="chart-chip">
+                            <span className="r-chip">
                               {q.type === "multi" ? "Multiple" : "Single"}
                             </span>
                           </div>
@@ -529,9 +502,11 @@ export default function InsightsPage() {
                 </div>
               )}
               {tab === "responses" && (
-                <div className="responses-view">
-                  <div className="tab-intro">
-                    <span className="section-kicker">RESPONSE EXPLORER</span>
+                <div>
+                  <div className="r-intro">
+                    <span className="r-kicker r-kicker-green">
+                      RESPONSE EXPLORER
+                    </span>
                     <h2>Every voice, in full.</h2>
                     <p>
                       IP addresses are visible only here and in the protected
@@ -539,39 +514,41 @@ export default function InsightsPage() {
                       duplicate: campus Wi-Fi and mobile networks can be shared.
                     </p>
                   </div>
-                  <div className="response-tools">
-                    <label>
-                      <Search size={17} />
-                      <input
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        placeholder="Search answers or IP..."
-                      />
-                    </label>
-                    <label className="repeat-filter">
+                  <div className="r-tools">
+                    <input
+                      className="r-input r-search"
+                      aria-label="Search answers or IP"
+                      value={query}
+                      onChange={(e) => setQuery(e.target.value)}
+                      placeholder="Search answers or IP..."
+                    />
+                    <label className={`r-ack r-filter ${onlyRepeat ? "is-checked" : ""}`}>
                       <input
                         type="checkbox"
                         checked={onlyRepeat}
                         onChange={(e) => setOnlyRepeat(e.target.checked)}
-                      />{" "}
-                      Shared IP only ({repeatRows})
+                      />
+                      <span className="r-check">
+                        {onlyRepeat && <Check size={12} strokeWidth={3} />}
+                      </span>
+                      <span>Shared IP only ({repeatRows})</span>
                     </label>
-                    <span>{filtered.length} responses</span>
+                    <span className="r-count">{filtered.length} responses</span>
                   </div>
-                  <div className="response-list">
+                  <div className="r-resp-list">
                     {filtered.length ? (
                       filtered.map((r, i) => (
-                        <article className="response-item" key={r.id}>
+                        <article className="r-resp" key={r.id}>
                           <button
                             onClick={() =>
                               setSelected(selected === r.id ? null : r.id)
                             }
                             aria-expanded={selected === r.id}
                           >
-                            <span className="response-avatar">
+                            <span className="r-resp-num">
                               {String(i + 1).padStart(2, "0")}
                             </span>
-                            <span className="response-main">
+                            <span className="r-resp-main">
                               <strong>Response {r.id.slice(0, 8)}</strong>
                               <small>
                                 {new Date(r.createdAt).toLocaleString()} ·{" "}
@@ -579,17 +556,17 @@ export default function InsightsPage() {
                               </small>
                             </span>
                             {r.possibleRepeat && (
-                              <span className="repeat-pill">SHARED IP</span>
+                              <span className="r-pill">SHARED IP</span>
                             )}
                             {selected === r.id ? (
-                              <ChevronUp size={18} />
+                              <ChevronUp size={16} />
                             ) : (
-                              <ChevronDown size={18} />
+                              <ChevronDown size={16} />
                             )}
                           </button>
                           {selected === r.id && (
-                            <div className="response-detail">
-                              <div className="response-ip">
+                            <div className="r-resp-detail">
+                              <div className="r-resp-ip">
                                 <span>VISITOR IP ADDRESS</span>
                                 <p>
                                   {r.ip ||
@@ -616,12 +593,13 @@ export default function InsightsPage() {
                                   </p>
                                 </div>
                               ))}
-                              <div className="response-delete">
+                              <div className="r-resp-delete">
                                 <button
+                                  className="r-btn r-btn-ghost r-btn-sm r-btn-danger"
                                   disabled={busy}
                                   onClick={() => deleteResponse(r.id)}
                                 >
-                                  <Trash2 size={14} /> Delete this response
+                                  Delete this response
                                 </button>
                               </div>
                             </div>
@@ -629,25 +607,23 @@ export default function InsightsPage() {
                         </article>
                       ))
                     ) : (
-                      <div className="empty-responses">
+                      <div className="r-empty-box">
                         No matching responses yet.
                       </div>
                     )}
                   </div>
                 </div>
               )}
-              <div className="dashboard-footer">
-                <span>
-                  <LockKeyhole size={14} /> Results are passcode protected
-                </span>
+              <div className="r-dash-foot">
+                <span>Results are passcode protected</span>
                 <span>
                   Academic coursework project · IIT Sustainability Survey
                 </span>
               </div>
-            </>
+            </div>
           )}
-        </div>
       </main>
+      <SiteFooter />
     </>
   );
 }
