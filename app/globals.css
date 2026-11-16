@@ -92,6 +92,22 @@
 svg, .live-dot, .question-index, .response-avatar, .theme-dot { flex-shrink: 0; }
 .response-tools input { min-width: 0; }
 .progress-labels button { min-height: 44px; }
+
+/* Survey form alignment.
+   A flex <legend> is positioned over the fieldset's top border, so the fieldset's
+   own padding ended up *below* the title (crowding it against the divider above and
+   leaving a big gap before the options). Floating the legend makes it take part in
+   normal flow so the padding applies above it. */
+.question legend { float: left; width: 100%; align-items: flex-start; padding-bottom: 16px; }
+.question legend + * { clear: both; }
+.question-index { min-width: 30px; height: 24px; padding: 0 6px; display: inline-grid; place-items: center; text-align: center; line-height: 1; margin-top: -1px; }
+.question-hint { margin: -6px 0 14px 44px; }
+.option-grid { margin-top: 0; }
+.question textarea { margin-top: 0; }
+.option { align-items: center; }
+.option > span:last-child { flex: 1; min-width: 0; line-height: 1.4; }
+.other-input { display: block; }
+
 a:focus-visible, button:focus-visible { outline: 2px solid #69a66e; outline-offset: 4px; }
 
 @media (max-width: 1100px) {
