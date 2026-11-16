@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Leaf, Recycle, Zap } from "lucide-react";
 import SiteHeader from "./components/SiteHeader";
 import SiteFooter from "./components/SiteFooter";
 import { initializeDemo } from "../lib/demo";
@@ -10,10 +10,15 @@ export default async function Home() {
   await initializeDemo();
   return <><SiteHeader/><main>
     <section className="r-wrap r-hero">
-      <div className="r-kicker"><span className="r-dot"/> An academic research survey · IIT community</div>
-      <h1>A greener campus starts with <em className="r-em">your voice.</em></h1>
-      <p className="r-hero-sub">What is working? What could be better? Share your perspective on sustainability at IIT and help identify the ideas that matter most.</p>
-      <div className="r-hero-actions"><Link href="/survey" className="r-btn r-btn-green">Take the survey <ArrowRight size={17}/></Link><span className="r-time">About 5–7 minutes · 20 questions</span></div>
+      <div className="r-hero-grid">
+        <div>
+          <div className="r-kicker"><span className="r-dot"/> An academic research survey · IIT community</div>
+          <h1>A greener campus starts with <em className="r-em">your voice.</em></h1>
+          <p className="r-hero-sub">What is working? What could be better? Share your perspective on sustainability at IIT and help identify the ideas that matter most.</p>
+          <div className="r-hero-actions"><Link href="/survey" className="r-btn r-btn-green">Take the survey <ArrowRight size={17}/></Link><span className="r-time">About 5–7 minutes · 20 questions</span></div>
+        </div>
+        <div className="hero-art" aria-hidden="true"><div className="art-glow"/><div className="art-orbit orbit-one"/><div className="art-orbit orbit-two"/><div className="planet"><div className="planet-inner"><Leaf size={93} strokeWidth={1.25}/></div></div><div className="float-card float-one"><span className="float-icon"><Recycle size={21}/></span><div><strong>Better choices</strong><small>Every response counts</small></div></div><div className="float-card float-two"><span className="float-icon mint"><Zap size={20}/></span><div><strong>Fresh ideas</strong><small>For a future-ready IIT</small></div></div><span className="orbit-spark spark-one">✳</span><span className="orbit-spark spark-two">✦</span></div>
+      </div>
       <ul className="r-trust"><li>No name or email requested</li><li>Encrypted answers &amp; IP</li><li>Academic use only</li></ul>
     </section>
     <section className="r-band" id="why"><div className="r-wrap r-section">
